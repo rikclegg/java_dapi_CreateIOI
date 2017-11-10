@@ -44,7 +44,7 @@ public class Java_dapi_CreateIOI
     private static final Name SERVICE_OPENED = new Name("ServiceOpened");
     private static final Name SERVICE_OPEN_FAILURE = new Name("ServiceOpenFailure");
 
-    private String d_emsx;
+    private String d_ioi;
     private String d_host;
     private int d_port;
 
@@ -72,7 +72,7 @@ public class Java_dapi_CreateIOI
         // and the values to be used by the SessionOptions object
         // to identify IP/port of the back-end process.
 
-        d_emsx = "//blp/ioiapi-beta-request";
+        d_ioi = "//blp/ioiapi-beta-request";
         d_host = "localhost";
         d_port = 8194;
     }
@@ -98,6 +98,7 @@ public class Java_dapi_CreateIOI
     	public IOIEventHandler(Java_dapi_CreateIOI example) {
     		this.example = example;
     	}
+    	
 	    public void processEvent(Event evt, Session session)
 	    {
 	        try
@@ -161,7 +162,7 @@ public class Java_dapi_CreateIOI
 				if (msg.messageType().equals(SESSION_STARTED))
 	            {
 					System.out.println("Session started...");
-	                session.openServiceAsync(d_emsx);
+	                session.openServiceAsync(d_ioi);
 	            }
 	            else if (msg.messageType().equals(SESSION_STARTUP_FAILURE))
 	            {
@@ -183,8 +184,8 @@ public class Java_dapi_CreateIOI
 
 				if (msg.messageType().equals(SERVICE_OPENED))
 	            {
-					System.out.println("EMSX Service opened... Sending request");
-	                sendCreateIOI(session, d_emsx);
+					System.out.println("IOIAPI Service opened... Sending request");
+	                sendCreateIOI(session, d_ioi);
 	            }
 	            else if (msg.messageType().equals(SERVICE_OPEN_FAILURE))
 	            {
@@ -237,9 +238,9 @@ public class Java_dapi_CreateIOI
 	        }
 	    }
 	
-	    private void sendCreateIOI(Session session, String emsxSvc)
+	    private void sendCreateIOI(Session session, String ioiSvc)
 	    {
-	        Service service = session.getService(emsxSvc);
+	        Service service = session.getService(ioiSvc);
 	        Request request = service.createRequest("createIoi");
 	
 	        Element ioi = request.getElement("ioi");
